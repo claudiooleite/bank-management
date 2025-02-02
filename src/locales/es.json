@@ -1,0 +1,16 @@
+{
+  "title": "Gestión de Cuentas Bancarias",
+  "createAccount": "Crear Cuenta",
+  "editAccount": "Editar Cuenta",
+  "transferFunds": "Transferir Fondos",
+  "ownerName": "Nombre del Propietario",
+  "currency": "Moneda",
+  "balance": "Saldo",
+  "selectSender": "Seleccionar Remitente",
+  "selectReceiver": "Seleccionar Destinatario",
+  "amount": "Cantidad",
+  "transfer": "Transferir",
+  "cancel": "Cancelar",
+  "loading": "Cargando...",
+  "error": "Ocurrió un error"
+}

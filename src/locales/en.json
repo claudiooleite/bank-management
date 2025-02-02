@@ -1,0 +1,16 @@
+{
+  "title": "Bank Account Management",
+  "createAccount": "Create Account",
+  "editAccount": "Edit Account",
+  "transferFunds": "Transfer Funds",
+  "ownerName": "Owner Name",
+  "currency": "Currency",
+  "balance": "Balance",
+  "selectSender": "Select Sender",
+  "selectReceiver": "Select Receiver",
+  "amount": "Amount",
+  "transfer": "Transfer",
+  "cancel": "Cancel",
+  "loading": "Loading...",
+  "error": "An error occurred"
+}
