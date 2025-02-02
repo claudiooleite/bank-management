@@ -1,15 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
 export default function LanguageSwitcher() {
-  const [language, setLanguage] = useState("en");
-  const t = useTranslations();
+  const [language, setLanguage] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("language") || "en";
+    }
+    return "en";
+  });
 
   const handleLanguageChange = (lang: string) => {
     setLanguage(lang);
-    window.location.reload(); // Refresh to apply language change
+    localStorage.setItem("language", lang);
+    window.location.reload(); 
   };
 
   return (
