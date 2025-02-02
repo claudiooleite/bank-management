@@ -11,9 +11,7 @@ export default function TransferForm() {
   const transferStatus = useSelector(
     (state: RootState) => state.transfer.status,
   );
-  const transferError = useSelector(
-    (state: RootState) => state.transfer.error,
-  );
+  const transferError = useSelector((state: RootState) => state.transfer.error);
 
   const [fromAccount, setFromAccount] = useState("");
   const [toAccount, setToAccount] = useState("");
@@ -44,7 +42,7 @@ export default function TransferForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="flex flex-col">
       <h3>Transfer Funds</h3>
       <select
         value={fromAccount}

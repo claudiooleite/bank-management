@@ -50,7 +50,7 @@ export default function AccountForm({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="flex flex-col">
       <h3>{existingAccount ? "Edit Account" : "Create Account"}</h3>
       <input
         type="text"

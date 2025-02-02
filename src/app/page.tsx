@@ -13,7 +13,7 @@ export default function Home() {
   const [editingAccount, setEditingAccount] = useState(null);
 
   return (
-    <>
+    <main className="flex flex-col w-screen">
       <h1>{t("title")}</h1>
 
       <Card>
@@ -35,6 +35,6 @@ export default function Home() {
       <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600">
         Click Me
       </button>
-    </>
+    </main>
   );
 }
