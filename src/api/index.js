@@ -12,16 +12,40 @@ app.use(express.urlencoded({ extended: true }));
 // Mock Accounts Data
 var accounts = [
   {
-    ownerId: "ac6c018e-d920-4795-ac79-69cc2061529b",
-    ownerName: "John Doe",
-    currency: "USD",
-    balance: 5000,
+    ownerId: uuidv4(),
+    ownerName: "Bill Gates",
+    currency: "EUR",
+    balance: 3000,
   },
   {
     ownerId: uuidv4(),
-    ownerName: "Jane Smith",
-    currency: "EUR",
-    balance: 3000,
+    ownerName: "Tom Hardy",
+    currency: "GBP",
+    balance: 7000,
+  },
+  {
+    ownerId: uuidv4(),
+    ownerName: "Christian Bale",
+    currency: "USD",
+    balance: 2500,
+  },
+  {
+    ownerId: uuidv4(),
+    ownerName: "Sophia Lee",
+    currency: "CAD",
+    balance: 4500,
+  },
+  {
+    ownerId: uuidv4(),
+    ownerName: "David Kim",
+    currency: "AUD",
+    balance: 6000,
+  },
+  {
+    ownerId: uuidv4(),
+    ownerName: "Emma Wilson",
+    currency: "JPY",
+    balance: 900000,
   },
 ];
 
