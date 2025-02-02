@@ -14,7 +14,6 @@ export default function AccountForm({
 }) {
   const dispatch = useDispatch<AppDispatch>();
 
-  const [ownerId, setOwnerId] = useState(existingAccount?.ownerId || "");
   const [ownerName, setOwnerName] = useState(existingAccount?.ownerName || ""); // New owner name field
   const [currency, setCurrency] = useState(existingAccount?.currency || "USD");
   const [balance, setBalance] = useState(existingAccount?.balance || "");
@@ -22,7 +21,6 @@ export default function AccountForm({
   // Prefill form when editing
   useEffect(() => {
     if (existingAccount) {
-      setOwnerId(existingAccount.ownerId);
       setOwnerName(existingAccount.ownerName);
       setCurrency(existingAccount.currency);
       setBalance(existingAccount.balance);
@@ -35,7 +33,7 @@ export default function AccountForm({
       ownerId: existingAccount ? existingAccount.ownerId : crypto.randomUUID(),
       ownerName,
       currency,
-      balance: Number(balance), // Ensure balance is a number
+      balance: Number(balance),
     };
 
     if (existingAccount) {
@@ -46,7 +44,6 @@ export default function AccountForm({
 
     // Reset form after submission
     clearEdit();
-    setOwnerId("");
     setOwnerName("");
     setCurrency("USD");
     setBalance("");
@@ -61,14 +58,6 @@ export default function AccountForm({
         value={ownerName}
         onChange={(e) => setOwnerName(e.target.value)}
         required
-      />
-      <input
-        type="text"
-        placeholder="Owner ID"
-        value={ownerId}
-        onChange={(e) => setOwnerId(e.target.value)}
-        required
-        disabled={!!existingAccount}
       />
       <input
         type="text"

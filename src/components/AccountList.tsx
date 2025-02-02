@@ -23,6 +23,7 @@ export default function AccountList({
       <table>
         <thead>
           <tr>
+            <th>Owner Name</th>
             <th>Owner ID</th>
             <th>Currency</th>
             <th>Balance</th>
@@ -32,6 +33,7 @@ export default function AccountList({
         <tbody>
           {accounts.map((account) => (
             <tr key={account.ownerId}>
+              <td>{account.ownerName}</td>
               <td>{account.ownerId}</td>
               <td>{account.currency}</td>
               <td>{account.balance}</td>
