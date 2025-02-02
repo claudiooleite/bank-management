@@ -92,6 +92,33 @@ app.get("/", (req, res, next) => {
   res.status(404).send("");
 });
 
+// Transfer Funds Functionality
+app.post("/transfer", (req, res) => {
+  console.log("Incoming Transfer Request:", req.body); // ✅ Debugging API Request
+
+  const { fromAccountId, toAccountId, amount } = req.body;
+
+  const fromAccount = accounts.find((acc) => acc.ownerId === fromAccountId);
+  const toAccount = accounts.find((acc) => acc.ownerId === toAccountId);
+
+  if (!fromAccount || !toAccount) {
+    console.log("Error: One or both accounts not found");
+    return res.status(404).json({ error: "One or both accounts not found" });
+  }
+
+  if (fromAccount.balance < amount) {
+    console.log("Error: Insufficient funds");
+    return res.status(400).json({ error: "Insufficient funds" });
+  }
+
+  // Deduct from sender and add to receiver
+  fromAccount.balance -= amount;
+  toAccount.balance += amount;
+
+  console.log("Transfer Successful:", { fromAccount, toAccount }); // ✅ Debugging API Response
+  res.json({ message: "Transfer successful", fromAccount, toAccount });
+});
+
 const port = 9000;
 
 app.listen(port, () => {

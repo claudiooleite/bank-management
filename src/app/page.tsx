@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import AccountList from "../components/AccountList";
 import AccountForm from "../components/AccountForm";
+import TransferForm from "../components/TransferForm";
+import { useState } from "react";
 
 export default function Home() {
   const [editingAccount, setEditingAccount] = useState(null);
@@ -14,6 +15,7 @@ export default function Home() {
         existingAccount={editingAccount}
         clearEdit={() => setEditingAccount(null)}
       />
+      <TransferForm />
       <AccountList onEdit={setEditingAccount} />
     </main>
   );
