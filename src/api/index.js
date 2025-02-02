@@ -13,10 +13,16 @@ app.use(express.urlencoded({ extended: true }));
 var accounts = [
   {
     ownerId: "ac6c018e-d920-4795-ac79-69cc2061529b",
+    ownerName: "John Doe",
     currency: "USD",
     balance: 5000,
   },
-  { ownerId: uuidv4(), currency: "EUR", balance: 3000 },
+  {
+    ownerId: uuidv4(),
+    ownerName: "Jane Smith",
+    currency: "EUR",
+    balance: 3000,
+  },
 ];
 
 app.get("/accounts", (req, res, next) => {
@@ -35,40 +41,37 @@ app.get("/accounts/:ownerId", (req, res, next) => {
   res.json(account);
 });
 
-// Search Create Account Functionality
-app.post("/accounts", (req, res, next) => {
-  // accept request body
-  const requestBody = req.body;
-  // maybe you need to validate - optional for now
+// Create Account Functionality
+app.post("/accounts", (req, res) => {
+  const { ownerName, currency, balance } = req.body;
 
-  console.log({ requestBody });
-  console.log(req.body);
-
-  // store a new account
-  const savedAccount = {
-    ownerId: uuidv4(),
-    currency: requestBody.currency,
-    name: requestBody.name,
+  const newAccount = {
+    ownerId: uuidv4(), // Generate new UUID
+    ownerName,
+    currency,
+    balance: Number(balance), // Ensure balance is a number
   };
-  console.log(savedAccount);
-  accounts.push(savedAccount);
 
-  // return new account
-  res.json(savedAccount);
+  accounts.push(newAccount);
+  res.json(newAccount);
 });
 
 // Update Account Functionality
 app.put("/accounts/:ownerId", (req, res) => {
   const { ownerId } = req.params;
-  const { currency, balance } = req.body;
+  const { ownerName, currency, balance } = req.body;
 
   const accountIndex = accounts.findIndex((acc) => acc.ownerId === ownerId);
   if (accountIndex === -1) {
     return res.status(404).json({ error: "Account not found" });
   }
 
-  // Update account details
-  accounts[accountIndex] = { ...accounts[accountIndex], currency, balance };
+  accounts[accountIndex] = {
+    ...accounts[accountIndex],
+    ownerName,
+    currency,
+    balance: Number(balance),
+  };
   res.json(accounts[accountIndex]);
 });
 

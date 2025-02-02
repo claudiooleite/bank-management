@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
-// Account type definition
+// Account type
 interface Account {
-  ownerId: string; // UUID from Express API
+  ownerId: string;
+  ownerName: string;
   currency: string;
   balance: number;
 }

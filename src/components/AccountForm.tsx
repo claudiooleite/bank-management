@@ -15,13 +15,15 @@ export default function AccountForm({
   const dispatch = useDispatch<AppDispatch>();
 
   const [ownerId, setOwnerId] = useState(existingAccount?.ownerId || "");
+  const [ownerName, setOwnerName] = useState(existingAccount?.ownerName || ""); // New owner name field
   const [currency, setCurrency] = useState(existingAccount?.currency || "USD");
   const [balance, setBalance] = useState(existingAccount?.balance || "");
 
-  // Update form when editing an account
+  // Prefill form when editing
   useEffect(() => {
     if (existingAccount) {
       setOwnerId(existingAccount.ownerId);
+      setOwnerName(existingAccount.ownerName);
       setCurrency(existingAccount.currency);
       setBalance(existingAccount.balance);
     }
@@ -29,7 +31,12 @@ export default function AccountForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const accountData = { ownerId, currency, balance: Number(balance) };
+    const accountData = {
+      ownerId: existingAccount ? existingAccount.ownerId : crypto.randomUUID(),
+      ownerName,
+      currency,
+      balance: Number(balance), // Ensure balance is a number
+    };
 
     if (existingAccount) {
       dispatch(updateAccount(accountData));
@@ -40,6 +47,7 @@ export default function AccountForm({
     // Reset form after submission
     clearEdit();
     setOwnerId("");
+    setOwnerName("");
     setCurrency("USD");
     setBalance("");
   };
@@ -47,6 +55,13 @@ export default function AccountForm({
   return (
     <form onSubmit={handleSubmit}>
       <h3>{existingAccount ? "Edit Account" : "Create Account"}</h3>
+      <input
+        type="text"
+        placeholder="Owner Name"
+        value={ownerName}
+        onChange={(e) => setOwnerName(e.target.value)}
+        required
+      />
       <input
         type="text"
         placeholder="Owner ID"
