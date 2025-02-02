@@ -1,46 +1,100 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
+// Account type definition
 interface Account {
-  id: number;
-  ownerId: number;
+  ownerId: string; // UUID from Express API
   currency: string;
   balance: number;
 }
 
 interface AccountsState {
   accounts: Account[];
+  status: "idle" | "loading" | "failed";
 }
 
 const initialState: AccountsState = {
-  accounts: [
-    { id: 1, ownerId: 1001, currency: "USD", balance: 5000 },
-    { id: 2, ownerId: 1002, currency: "EUR", balance: 3000 },
-  ],
+  accounts: [],
+  status: "idle",
 };
 
+// Async Thunks for API Calls
+
+// Fetch all accounts
+export const fetchAccounts = createAsyncThunk(
+  "accounts/fetchAccounts",
+  async () => {
+    const response = await fetch("http://localhost:9000/accounts");
+    return response.json();
+  },
+);
+
+// Add a new account
+export const addAccount = createAsyncThunk(
+  "accounts/addAccount",
+  async (newAccount: Omit<Account, "ownerId">) => {
+    const response = await fetch("http://localhost:9000/accounts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newAccount),
+    });
+    return response.json();
+  },
+);
+
+// Update an account
+export const updateAccount = createAsyncThunk(
+  "accounts/updateAccount",
+  async (account: Account) => {
+    const response = await fetch(
+      `http://localhost:9000/accounts/${account.ownerId}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(account),
+      },
+    );
+    return response.json();
+  },
+);
+
+// Delete an account
+export const deleteAccount = createAsyncThunk(
+  "accounts/deleteAccount",
+  async (ownerId: string) => {
+    await fetch(`http://localhost:9000/accounts/${ownerId}`, {
+      method: "DELETE",
+    });
+    return ownerId;
+  },
+);
+
+// Redux Slice
 const accountsSlice = createSlice({
   name: "accounts",
   initialState,
-  reducers: {
-    addAccount: (state, action: PayloadAction<Account>) => {
-      state.accounts.push(action.payload);
-    },
-    updateAccount: (state, action: PayloadAction<Account>) => {
-      const index = state.accounts.findIndex(
-        (acc) => acc.id === action.payload.id,
-      );
-      if (index !== -1) {
-        state.accounts[index] = action.payload;
-      }
-    },
-    deleteAccount: (state, action: PayloadAction<number>) => {
-      state.accounts = state.accounts.filter(
-        (acc) => acc.id !== action.payload,
-      );
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAccounts.fulfilled, (state, action) => {
+        state.accounts = action.payload;
+      })
+      .addCase(addAccount.fulfilled, (state, action) => {
+        state.accounts.push(action.payload);
+      })
+      .addCase(updateAccount.fulfilled, (state, action) => {
+        const index = state.accounts.findIndex(
+          (acc) => acc.ownerId === action.payload.ownerId,
+        );
+        if (index !== -1) {
+          state.accounts[index] = action.payload;
+        }
+      })
+      .addCase(deleteAccount.fulfilled, (state, action) => {
+        state.accounts = state.accounts.filter(
+          (acc) => acc.ownerId !== action.payload,
+        );
+      });
   },
 });
 
-export const { addAccount, updateAccount, deleteAccount } =
-  accountsSlice.actions;
 export default accountsSlice.reducer;

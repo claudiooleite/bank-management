@@ -1,10 +1,15 @@
 const express = require("express");
+// const cors = require("cors");
 const { v4: uuidv4 } = require("uuid");
+
 const app = express();
 
+// Enable CORS for frontend access
+// app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Mock Accounts Data
 var accounts = [
   {
     ownerId: "ac6c018e-d920-4795-ac79-69cc2061529b",
@@ -30,6 +35,7 @@ app.get("/accounts/:ownerId", (req, res, next) => {
   res.json(account);
 });
 
+// Search Create Account Functionality
 app.post("/accounts", (req, res, next) => {
   // accept request body
   const requestBody = req.body;
@@ -51,12 +57,32 @@ app.post("/accounts", (req, res, next) => {
   res.json(savedAccount);
 });
 
-app.put("/accounts/:id", (req, res, next) => {
-  res.json({ response: "hello" });
+// Update Account Functionality
+app.put("/accounts/:ownerId", (req, res) => {
+  const { ownerId } = req.params;
+  const { currency, balance } = req.body;
+
+  const accountIndex = accounts.findIndex((acc) => acc.ownerId === ownerId);
+  if (accountIndex === -1) {
+    return res.status(404).json({ error: "Account not found" });
+  }
+
+  // Update account details
+  accounts[accountIndex] = { ...accounts[accountIndex], currency, balance };
+  res.json(accounts[accountIndex]);
 });
 
-app.delete("/accounts/:id", (req, res, next) => {
-  res.json({ response: "hello" });
+// Delete Account Functionality
+app.delete("/accounts/:ownerId", (req, res) => {
+  const { ownerId } = req.params;
+
+  const accountIndex = accounts.findIndex((acc) => acc.ownerId === ownerId);
+  if (accountIndex === -1) {
+    return res.status(404).json({ error: "Account not found" });
+  }
+
+  accounts.splice(accountIndex, 1);
+  res.json({ message: "Account deleted successfully" });
 });
 
 app.get("/", (req, res, next) => {
