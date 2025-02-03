@@ -1,9 +1,11 @@
 {
   "title": "Gestión de Cuentas Bancarias",
+  "bankAccount": "Conta Bancaria",
+  "actions": "Aciones",
   "createAccount": "Crear Cuenta",
   "editAccount": "Editar Cuenta",
   "transferFunds": "Transferir Fondos",
-  "ownerName": "Nombre del Propietario",
+  "ownerName": "Propietario",
   "currency": "Moneda",
   "balance": "Saldo",
   "selectSender": "Seleccionar Remitente",

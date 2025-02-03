@@ -1,5 +1,7 @@
 {
   "title": "Bank Account Management",
+  "bankAccount": "Bank Account",
+  "actions": "Actions",
   "createAccount": "Create Account",
   "editAccount": "Edit Account",
   "transferFunds": "Transfer Funds",

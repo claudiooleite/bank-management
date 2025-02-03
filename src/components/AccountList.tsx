@@ -5,10 +5,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAccounts, updateAccount, deleteAccount } from "../redux/slices/accountSlice";
 import { RootState, AppDispatch } from "../redux/store";
+import { useTranslations } from "next-intl";
 
 export default function AccountList() {
   const dispatch = useDispatch<AppDispatch>();
   const accounts = useSelector((state: RootState) => state.accounts.accounts);
+  
+  const t = useTranslations();
 
   // ✅ Fetch accounts on component load
   useEffect(() => {
@@ -64,17 +67,17 @@ export default function AccountList() {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-semibold mb-4">Bank Accounts</h2>
+      <h2 className="text-2xl font-semibold mb-4">{t("bankAccount")}</h2>
       {accounts.length === 0 ? (
         <p className="text-gray-500">No accounts found.</p>
       ) : (
         <table className="w-full border-collapse border border-gray-300">
           <thead className="hidden sm:table-header-group">
             <tr className="bg-gray-200">
-              <th className="p-2 border">Owner Name</th>
-              <th className="p-2 border">Currency</th>
-              <th className="p-2 border">Balance</th>
-              <th className="p-2 border">Actions</th>
+              <th className="p-2 border">{t("ownerName")}</th>
+              <th className="p-2 border">{t("currency")}</th>
+              <th className="p-2 border">{t("balance")}</th>
+              <th className="p-2 border">{t("actions")}</th>
             </tr>
           </thead>
           <tbody>

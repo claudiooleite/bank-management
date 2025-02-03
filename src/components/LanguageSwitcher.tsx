@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function LanguageSwitcher() {
   const [language, setLanguage] = useState(() => {

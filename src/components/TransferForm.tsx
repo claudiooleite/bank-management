@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../redux/store";
 import { makeTransfer } from "../redux/slices/transferSlice";
+import { useTranslations } from "next-intl";
 
 export default function TransferForm() {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,6 +17,8 @@ export default function TransferForm() {
   const [fromAccount, setFromAccount] = useState("");
   const [toAccount, setToAccount] = useState("");
   const [amount, setAmount] = useState("");
+
+  const t = useTranslations();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,14 +46,14 @@ export default function TransferForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col">
-      <h3 className="text-xl font-semibold mb-2">Transfer Funds</h3>
+      <h3 className="text-xl font-semibold mb-2">{t("transferFunds")}</h3>
       <select
         value={fromAccount}
         onChange={(e) => setFromAccount(e.target.value)}
         required
         className="border p-2 rounded mb-2"
       >
-        <option value="">Select Sender</option>
+        <option value="">{t("selectSender")}</option>
         {accounts.map((acc) => (
           <option key={acc.ownerId} value={acc.ownerId}>
             {acc.ownerName} ({acc.currency}) - {acc.balance}
@@ -64,7 +67,7 @@ export default function TransferForm() {
         required
         className="border p-2 rounded mb-2"
       >
-        <option value="">Select Receiver</option>
+        <option value="">{t("selectReceiver")}</option>
         {accounts.map((acc) => (
           <option key={acc.ownerId} value={acc.ownerId}>
             {acc.ownerName} ({acc.currency}) - {acc.balance}
@@ -74,14 +77,14 @@ export default function TransferForm() {
 
       <input
         type="number"
-        placeholder="Amount"
+        placeholder={t("amount")}
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
         className="border p-2 rounded mb-2"
         required
       />
 
-      <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Transfer</button>
+      <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">{t("transfer")}</button>
 
       {/* Show loading state */}
       {transferStatus === "loading" && <p>Processing transfer...</p>}
