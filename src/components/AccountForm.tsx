@@ -1,63 +1,46 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addAccount, updateAccount } from "../redux/slices/accountSlice";
+import { addAccount } from "../redux/slices/accountSlice";
 import { AppDispatch } from "../redux/store";
 
-export default function AccountForm({
-  existingAccount,
-  clearEdit,
-}: {
-  existingAccount?: any;
-  clearEdit: () => void;
-}) {
+export default function AccountForm() {
   const dispatch = useDispatch<AppDispatch>();
 
-  const [ownerName, setOwnerName] = useState(existingAccount?.ownerName || ""); // New owner name field
-  const [currency, setCurrency] = useState(existingAccount?.currency || "USD");
-  const [balance, setBalance] = useState(existingAccount?.balance || "");
-
-  // Prefill form when editing
-  useEffect(() => {
-    if (existingAccount) {
-      setOwnerName(existingAccount.ownerName);
-      setCurrency(existingAccount.currency);
-      setBalance(existingAccount.balance);
-    }
-  }, [existingAccount]);
+  const [ownerName, setOwnerName] = useState("");
+  const [currency, setCurrency] = useState("USD");
+  const [balance, setBalance] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const accountData = {
-      ownerId: existingAccount ? existingAccount.ownerId : crypto.randomUUID(),
+      ownerId: crypto.randomUUID(), // ✅ Generate unique ID
       ownerName,
       currency,
       balance: Number(balance),
     };
 
-    if (existingAccount) {
-      dispatch(updateAccount(accountData));
-    } else {
-      dispatch(addAccount(accountData));
-    }
+    dispatch(addAccount(accountData));
 
-    // Reset form after submission
-    clearEdit();
+    // ✅ Reset the form after submission
     setOwnerName("");
     setCurrency("USD");
     setBalance("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col">
-      <h3>{existingAccount ? "Edit Account" : "Create Account"}</h3>
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col p-4 border rounded-lg shadow-md bg-white">
+      <h3 className="text-xl font-semibold mb-2">Create New Account</h3>
       <input
         type="text"
         placeholder="Owner Name"
         value={ownerName}
         onChange={(e) => setOwnerName(e.target.value)}
         required
+        className="border p-2 rounded mb-2"
       />
       <input
         type="text"
@@ -65,6 +48,7 @@ export default function AccountForm({
         value={currency}
         onChange={(e) => setCurrency(e.target.value)}
         required
+        className="border p-2 rounded mb-2"
       />
       <input
         type="number"
@@ -72,13 +56,13 @@ export default function AccountForm({
         value={balance}
         onChange={(e) => setBalance(e.target.value)}
         required
+        className="border p-2 rounded mb-2"
       />
-      <button type="submit">{existingAccount ? "Update" : "Create"}</button>
-      {existingAccount && (
-        <button type="button" onClick={clearEdit}>
-          Cancel
-        </button>
-      )}
+      <button
+        type="submit"
+        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        Create Account
+      </button>
     </form>
   );
 }

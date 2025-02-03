@@ -14,7 +14,7 @@ npm run dev
 To start the backend API
 
 ```bash
-cd src/app
+cd src/api
 npm install
 npm run dev
 ```
