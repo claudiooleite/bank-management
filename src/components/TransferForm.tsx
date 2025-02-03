@@ -43,15 +43,17 @@ export default function TransferForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col">
-      <h3>Transfer Funds</h3>
+      <h3 className="text-xl font-semibold mb-2">Transfer Funds</h3>
       <select
         value={fromAccount}
         onChange={(e) => setFromAccount(e.target.value)}
-        required>
+        required
+        className="border p-2 rounded mb-2"
+      >
         <option value="">Select Sender</option>
         {accounts.map((acc) => (
           <option key={acc.ownerId} value={acc.ownerId}>
-            {acc.ownerName} ({acc.currency}) - ${acc.balance}
+            {acc.ownerName} ({acc.currency}) - {acc.balance}
           </option>
         ))}
       </select>
@@ -59,11 +61,13 @@ export default function TransferForm() {
       <select
         value={toAccount}
         onChange={(e) => setToAccount(e.target.value)}
-        required>
+        required
+        className="border p-2 rounded mb-2"
+      >
         <option value="">Select Receiver</option>
         {accounts.map((acc) => (
           <option key={acc.ownerId} value={acc.ownerId}>
-            {acc.ownerName} ({acc.currency}) - ${acc.balance}
+            {acc.ownerName} ({acc.currency}) - {acc.balance}
           </option>
         ))}
       </select>
@@ -73,6 +77,7 @@ export default function TransferForm() {
         placeholder="Amount"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
+        className="border p-2 rounded mb-2"
         required
       />
 

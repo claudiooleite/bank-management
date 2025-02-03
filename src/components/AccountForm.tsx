@@ -9,7 +9,7 @@ export default function AccountForm() {
   const dispatch = useDispatch<AppDispatch>();
 
   const [ownerName, setOwnerName] = useState("");
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState("EUR");
   const [balance, setBalance] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -25,7 +25,7 @@ export default function AccountForm() {
 
     // ✅ Reset the form after submission
     setOwnerName("");
-    setCurrency("USD");
+    setCurrency("EUR");
     setBalance("");
   };
 
@@ -34,6 +34,7 @@ export default function AccountForm() {
       onSubmit={handleSubmit}
       className="flex flex-col ">
       <h3 className="text-xl font-semibold mb-2">Create New Account</h3>
+
       <input
         type="text"
         placeholder="Owner Name"
@@ -42,14 +43,16 @@ export default function AccountForm() {
         required
         className="border p-2 rounded mb-2"
       />
-      <input
-        type="text"
-        placeholder="Currency"
+
+      <select
         value={currency}
         onChange={(e) => setCurrency(e.target.value)}
-        required
         className="border p-2 rounded mb-2"
-      />
+      >
+        <option value="EUR">EUR (€)</option>
+        <option value="GBP">GBP (£)</option>
+      </select>
+
       <input
         type="number"
         placeholder="Balance"
@@ -58,6 +61,7 @@ export default function AccountForm() {
         required
         className="border p-2 rounded mb-2"
       />
+
       <button
         type="submit"
         className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">

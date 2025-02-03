@@ -12,18 +12,20 @@ export default function Home() {
   const t = useTranslations();
 
   return (
-    <main className="flex flex-col items-center p-4 gap-3">
-      <h1>{t("title")}</h1>
+    <main className="flex flex-col items-center p-4 gap-3 max-w-7xl w-full">
+      <h1 className="text-3xl font-bold">{t("title")}</h1>
 
       {/* Create Account Form */}
-      <Card>
-        <AccountForm/>
-      </Card>
+      <div className="flex flex-col sm:flex-row gap-4 w-full">
+        <Card>
+          <AccountForm/>
+        </Card>
 
-      {/* Transfer Funds Form */}
-      <Card>
-        <TransferForm />
-      </Card>
+        {/* Transfer Funds Form */}
+        <Card>
+          <TransferForm />
+        </Card>
+      </div>
 
       {/* Account List */}
       <Card>

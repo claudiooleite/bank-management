@@ -87,7 +87,7 @@ export default function AccountList() {
                 >
                   <td className="p-2 border">{account.ownerName}</td>
                   <td className="p-2 border">{account.currency}</td>
-                  <td className="p-2 border">${account.balance.toFixed(2)}</td>
+                  <td className="p-2 border">{account.balance.toFixed(2)}</td>
                   <td className="p-2 border flex gap-2 justify-evenly">
                     <button
                       onClick={() => handleEdit(account.ownerId, account)}
@@ -117,10 +117,10 @@ export default function AccountList() {
                   <td className="p-2">
                     <div className="flex justify-between">
                       <span className="font-semibold">{account.ownerName}</span>
-                      <button className="text-sm text-blue-500">Edit</button>
+                      <button className="text-md text-blue-500">Edit</button>
                     </div>
                     <div className="text-gray-600 text-sm">
-                      {account.currency} - ${account.balance.toFixed(2)}
+                      {account.currency} - {account.balance.toFixed(2)}
                     </div>
                   </td>
                 </tr>

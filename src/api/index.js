@@ -26,25 +26,25 @@ var accounts = [
   {
     ownerId: uuidv4(),
     ownerName: "Christian Bale",
-    currency: "USD",
+    currency: "EUR",
     balance: 2500,
   },
   {
     ownerId: uuidv4(),
     ownerName: "Sophia Lee",
-    currency: "CAD",
+    currency: "GBP",
     balance: 4500,
   },
   {
     ownerId: uuidv4(),
     ownerName: "David Kim",
-    currency: "AUD",
+    currency: "GBP",
     balance: 6000,
   },
   {
     ownerId: uuidv4(),
     ownerName: "Emma Wilson",
-    currency: "JPY",
+    currency: "GBP",
     balance: 900000,
   },
 ];

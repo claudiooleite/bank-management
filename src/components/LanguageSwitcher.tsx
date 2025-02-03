@@ -17,9 +17,24 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div>
-      <button onClick={() => handleLanguageChange("en")}>English</button>
-      <button onClick={() => handleLanguageChange("es")}>Español</button>
+    <div className="p-2 flex gap-2">
+      <button
+        className={`border rounded-lg p-2 bg-white m-1 ${
+          language === "en" ? "" : "shadow-md"
+        }`}
+        onClick={() => handleLanguageChange("en")}
+      >
+        English
+      </button>
+
+      <button
+        className={`border rounded-lg p-2 bg-white m-1 ${
+          language === "es" ? "" : "shadow-md"
+        }`}
+        onClick={() => handleLanguageChange("es")}
+      >
+        Español
+      </button>
     </div>
   );
 }
