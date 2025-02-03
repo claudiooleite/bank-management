@@ -10,31 +10,26 @@ import Card from "@/components/Card";
 
 export default function Home() {
   const t = useTranslations();
-  const [editingAccount, setEditingAccount] = useState(null);
 
   return (
-    <main className="flex flex-col w-screen">
+    <main className="flex flex-col items-center w-full p-4 gap-2">
       <h1>{t("title")}</h1>
 
+      {/* Create Account Form */}
       <Card>
-        <AccountForm
-          existingAccount={editingAccount}
-          clearEdit={() => setEditingAccount(null)}
-        />
+        <AccountForm/>
       </Card>
 
+      {/* Transfer Funds Form */}
       <Card>
         <TransferForm />
       </Card>
 
+      {/* Account List */}
       <Card>
-        <AccountList onEdit={setEditingAccount} />
+        <AccountList />
       </Card>
 
-      <h1 className="text-4xl font-bold text-blue-700">Tailwind is Working!</h1>
-      <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600">
-        Click Me
-      </button>
     </main>
   );
 }

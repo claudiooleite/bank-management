@@ -76,7 +76,7 @@ export default function TransferForm() {
         required
       />
 
-      <button type="submit">Transfer</button>
+      <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Transfer</button>
 
       {/* Show loading state */}
       {transferStatus === "loading" && <p>Processing transfer...</p>}

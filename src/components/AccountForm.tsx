@@ -32,7 +32,7 @@ export default function AccountForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col p-4 border rounded-lg shadow-md bg-white">
+      className="flex flex-col ">
       <h3 className="text-xl font-semibold mb-2">Create New Account</h3>
       <input
         type="text"
