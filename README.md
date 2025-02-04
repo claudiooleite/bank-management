@@ -18,3 +18,9 @@ cd src/api
 npm install
 npm run dev
 ```
+
+case port in use
+netstat -ano | findstr :3000
+
+              <PID>
+taskkill /PID 15524 /F

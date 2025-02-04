@@ -49,6 +49,12 @@ var accounts = [
   },
 ];
 
+// Mock Exchange Rates (1 EUR base)
+const exchangeRates = {
+  EUR: 1.0,
+  GBP: 0.89,
+};
+
 app.get("/accounts", (req, res, next) => {
   res.json(accounts);
 });
@@ -118,29 +124,30 @@ app.get("/", (req, res, next) => {
 
 // Transfer Funds Functionality
 app.post("/transfer", (req, res) => {
-  console.log("Incoming Transfer Request:", req.body); // ✅ Debugging API Request
-
   const { fromAccountId, toAccountId, amount } = req.body;
-
-  const fromAccount = accounts.find((acc) => acc.ownerId === fromAccountId);
-  const toAccount = accounts.find((acc) => acc.ownerId === toAccountId);
+  
+  const fromAccount = accounts.find(acc => acc.ownerId === fromAccountId);
+  const toAccount = accounts.find(acc => acc.ownerId === toAccountId);
 
   if (!fromAccount || !toAccount) {
-    console.log("Error: One or both accounts not found");
-    return res.status(404).json({ error: "One or both accounts not found" });
+    return res.status(400).json({ error: "Invalid accounts" });
   }
 
   if (fromAccount.balance < amount) {
-    console.log("Error: Insufficient funds");
     return res.status(400).json({ error: "Insufficient funds" });
   }
 
-  // Deduct from sender and add to receiver
-  fromAccount.balance -= amount;
-  toAccount.balance += amount;
+  let convertedAmount = amount;
 
-  console.log("Transfer Successful:", { fromAccount, toAccount }); // ✅ Debugging API Response
-  res.json({ message: "Transfer successful", fromAccount, toAccount });
+  if (fromAccount.currency !== toAccount.currency) {
+    const conversionRate = exchangeRates[toAccount.currency] / exchangeRates[fromAccount.currency];
+    convertedAmount = amount * conversionRate;
+  }
+
+  fromAccount.balance -= amount;
+  toAccount.balance += convertedAmount;
+
+  res.json({ success: true, fromAccount, toAccount });
 });
 
 const port = 9000;
