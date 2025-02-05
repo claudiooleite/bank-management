@@ -8,12 +8,12 @@ interface Account {
   balance: number;
 }
 
-interface AccountsState {
+export interface AccountsState {
   accounts: Account[];
   status: "idle" | "loading" | "failed";
 }
 
-const initialState: AccountsState = {
+export const initialState: AccountsState = {
   accounts: [],
   status: "idle",
 };
