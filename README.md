@@ -18,7 +18,7 @@ A **bank account management** web application built using **Next.js 15** with **
 - **Styling:** Tailwind CSS
 - **Backend:** Express Server (for mock API)
 
-## ** Local Development**
+## Local Development
 To run this project locally, you need to start both the frontend application and the backend API.
 
 ## Getting Started
