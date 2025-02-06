@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import AccountList from "../components/AccountList";
 import AccountForm from "../components/AccountForm";
 import TransferForm from "../components/TransferForm";
-import Card from "@/components/Card";
+import Card from "../components/Card";
 
 export default function Home() {
   const t = useTranslations();

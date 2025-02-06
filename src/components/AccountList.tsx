@@ -85,7 +85,7 @@ export default function AccountList() {
       </div>
 
       {/* Desktop & Tablet View (Table) */}
-      <div className="hidden sm:block">
+      <div className="hidden sm:block border rounded">
         <table className="w-full border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-200">
