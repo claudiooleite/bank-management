@@ -23,9 +23,6 @@ export default function TransferForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // ✅ Debugging: Log input values before submitting
-    console.log("Submitting Transfer:", { fromAccount, toAccount, amount });
-
     if (!fromAccount || !toAccount || !amount) {
       alert("Please fill in all fields before transferring.");
       return;
@@ -82,6 +79,7 @@ export default function TransferForm() {
         onChange={(e) => setAmount(e.target.value)}
         className="border p-2 rounded mb-2"
         required
+        minLength={2}
       />
 
       <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">{t("transfer")}</button>

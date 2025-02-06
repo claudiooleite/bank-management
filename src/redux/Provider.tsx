@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import en from "../locales/en.json";
 import es from "../locales/es.json";
 
-const messages: Record<"en" | "es", any> = { en, es }; // ✅ Explicitly define message types
+const messages: Record<"en" | "es", any> = { en, es }; 
 
 export function ReduxProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocale] = useState<"en" | "es">(() => {

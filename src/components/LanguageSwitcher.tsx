@@ -20,7 +20,7 @@ export default function LanguageSwitcher() {
     <div className="p-2 flex gap-2">
       <button
         className={`border rounded-lg p-2 bg-white m-1 ${
-          language === "en" ? "" : "shadow-md"
+          language === "en" ? " border-slate-500" : ""
         }`}
         onClick={() => handleLanguageChange("en")}
       >
@@ -29,7 +29,7 @@ export default function LanguageSwitcher() {
 
       <button
         className={`border rounded-lg p-2 bg-white m-1 ${
-          language === "es" ? "" : "shadow-md"
+          language === "es" ? " border-slate-500" : ""
         }`}
         onClick={() => handleLanguageChange("es")}
       >

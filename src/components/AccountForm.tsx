@@ -18,7 +18,7 @@ export default function AccountForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const accountData = {
-      ownerId: crypto.randomUUID(), // ✅ Generate unique ID
+      ownerId: crypto.randomUUID(), // Generate unique ID
       ownerName,
       currency,
       balance: Number(balance),
@@ -26,7 +26,7 @@ export default function AccountForm() {
 
     dispatch(addAccount(accountData));
 
-    // ✅ Reset the form after submission
+    // Reset the form after submission
     setOwnerName("");
     setCurrency("EUR");
     setBalance("");
@@ -45,6 +45,7 @@ export default function AccountForm() {
         onChange={(e) => setOwnerName(e.target.value)}
         required
         className="border p-2 rounded mb-2"
+        minLength={3}
       />
 
       <select

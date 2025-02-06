@@ -36,7 +36,7 @@ export default function AccountList() {
   };
 
   const handleSave = (id: string) => {
-    if (!editedAccounts[id]) return; // Ensure there's data to save
+    if (!editedAccounts[id]) return; 
 
     // Dispatch update to Redux
     dispatch(updateAccount({ ...editedAccounts[id], ownerId: id }));
@@ -64,6 +64,7 @@ export default function AccountList() {
     });
   };
 
+
   const filteredAccounts = accounts.filter(
   (account) =>
     account?.ownerName &&
@@ -83,7 +84,7 @@ export default function AccountList() {
         />
       </div>
 
-      {/* ✅ Desktop & Tablet View (Table) */}
+      {/* Desktop & Tablet View (Table) */}
       <div className="hidden sm:block">
         <table className="w-full border-collapse border border-gray-300">
           <thead>
@@ -104,7 +105,7 @@ export default function AccountList() {
                       placeholder={t("ownerName")}
                       value={editedAccounts[account.ownerId]?.ownerName ?? account.ownerName}
                       onChange={(e) => handleChange(account.ownerId, "ownerName", e.target.value)}
-                      className="border p-2 w-full"
+                      className="border p-1 w-full"
                     />
                   ) : (
                     <span>{account.ownerName}</span>
@@ -118,7 +119,7 @@ export default function AccountList() {
                       placeholder={t("currency")}
                       value={editedAccounts[account.ownerId]?.currency ?? account.currency}
                       onChange={(e) => handleChange(account.ownerId, "currency", e.target.value)}
-                      className="border p-2 w-full"
+                      className="border p-1 w-full"
                     />
                   ) : (
                     <span>{account.currency}</span>
@@ -132,14 +133,14 @@ export default function AccountList() {
                       placeholder={t("balance")}
                       value={editedAccounts[account.ownerId]?.balance ?? account.balance}
                       onChange={(e) => handleChange(account.ownerId, "balance", Number(e.target.value))}
-                      className="border p-2 w-full"
+                      className="border p-1 w-full"
                     />
                   ) : (
-                    <span>${account.balance.toFixed(2)}</span>
+                      <span>{account.currency === "EUR"? '€':'£' }{account.balance.toFixed(2)}</span>
                   )}
                 </td>
 
-                <td className="p-2 border flex gap-2">
+                <td className="p-2 border flex gap-2 justify-center ">
                   {editMode[account.ownerId] ? (
                     <>
                       <button
@@ -176,10 +177,10 @@ export default function AccountList() {
         </table>
       </div>
 
-      {/* ✅ Mobile View (Card Style) */}
+      {/* Mobile View (Card Style) */}
       <div className="sm:hidden">
         {filteredAccounts.map((account) => (
-          <div key={account.ownerId} className="bg-white shadow-md rounded-md p-4 mb-3">
+          <div key={account.ownerId} className="bg-white border rounded-md p-4 mb-3">
             <div className="flex justify-between items-center">
               <div>
                 {editMode[account.ownerId] ? (
@@ -227,7 +228,7 @@ export default function AccountList() {
             )}
             </div>
 
-            {/* ✅ Show Save & Cancel Buttons Only in Edit Mode */}
+            {/* Show Save & Cancel Buttons Only in Edit Mode */}
             {editMode[account.ownerId] && (
               <div className="mt-3 flex gap-2">
                 <button

@@ -49,7 +49,7 @@ describe("AccountList Component", () => {
   it("should display account list", () => {
     renderWithProviders(<AccountList />);
     
-    // ✅ Ensure at least one "John Doe" and "Jane Smith" appear
+    // nsure at least one "John Doe" and "Jane Smith" appear
     expect(screen.getAllByText("John Doe").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Jane Smith").length).toBeGreaterThan(0);
   });
@@ -61,32 +61,32 @@ describe("AccountList Component", () => {
     
     fireEvent.change(searchInput, { target: { value: "John" } });
 
-    // ✅ Ensure at least one "John Doe" appears
+    // Ensure at least one "John Doe" appears
     expect(screen.getAllByText("John Doe").length).toBeGreaterThan(0);
 
-    // ✅ Ensure "Jane Smith" is fully filtered out
+    // Ensure "Jane Smith" is fully filtered out
     expect(screen.queryAllByText("Jane Smith").length).toBe(0);
   });
 
   it("should show Edit button and update account name", async () => {
     renderWithProviders(<AccountList />);
     
-    // ✅ Get all "Edit" buttons and click the first one in the desktop table
+    // Get all "Edit" buttons and click the first one in the desktop table
     const editButtons = screen.getAllByText("Edit");
     fireEvent.click(editButtons[0]);
 
-    // ✅ Wait for the input field to appear
+    // Wait for the input field to appear
     await waitFor(() => {
         expect(screen.getByPlaceholderText(messages.en.ownerName)).toBeInTheDocument();
     });
 
-    // ✅ Find the input field
+    // Find the input field
     const nameInput = screen.getByPlaceholderText(messages.en.ownerName);
 
-    // ✅ Simulate typing a new name
+    // Simulate typing a new name
     fireEvent.change(nameInput, { target: { value: "Updated Name" } });
 
-    // ✅ Ensure the input has the new value
+    // Ensure the input has the new value
     expect(nameInput).toHaveValue("Updated Name");
   });
 });
