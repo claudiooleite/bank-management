@@ -3,12 +3,12 @@
 A **bank account management** web application built using **Next.js 15** with **TypeScript, Redux, and Tailwind CSS**. The project includes **account management, transactions, localization, editing and deleting accounts**.
 
 ## Features
-- 🔹 **Manage Bank Accounts** (Create, Edit, Delete)
-- 🔹 **Multi-currency Support**
-- 🔹 **Localization** with `next-intl`
-- 🔹 **Responsive UI** with Tailwind CSS
-- 🔹 **State Management** using Redux Toolkit
-- 🔹 **Unit Testing** using Jest
+-  **Manage Bank Accounts** (Create, Edit, Delete)
+-  **Multi-currency Support**
+-  **Localization** with `next-intl`
+-  **Responsive UI** with Tailwind CSS
+-  **State Management** using Redux Toolkit
+-  **Unit Testing** using Jest
 
 ---
 
