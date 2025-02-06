@@ -2,6 +2,7 @@
   "title": "Bank Account Management",
   "bankAccount": "Bank Account",
   "actions": "Actions",
+  "searchPlaceholder": "Search Account",
   "createAccount": "Create Account",
   "editAccount": "Edit Account",
   "transferFunds": "Transfer Funds",

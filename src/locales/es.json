@@ -3,6 +3,7 @@
   "bankAccount": "Conta Bancaria",
   "actions": "Aciones",
   "createAccount": "Crear Cuenta",
+  "searchPlaceholder": "Procurar",
   "editAccount": "Editar Cuenta",
   "transferFunds": "Transferir Fondos",
   "ownerName": "Propietario",
