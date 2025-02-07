@@ -110,11 +110,11 @@ export default function AccountList() {
       <div className="hidden sm:block border rounded">
         <table className="w-full border-collapse border border-gray-300">
           <thead>
-            <tr className="bg-gray-200">
+            <tr className="bg-gray-200 text-left">
               <th className="p-2 border">{t("ownerName")}</th>
               <th className="p-2 border">{t("currency")}</th>
               <th className="p-2 border">{t("balance")}</th>
-              <th className="p-2 border">{t("actions")}</th>
+              <th className="p-2 border text-center">{t("actions")}</th>
             </tr>
           </thead>
           <tbody>
@@ -148,12 +148,32 @@ export default function AccountList() {
                 </td>
 
                 <td className="p-2 border">
-                  <span>
-                    {account.currency === "EUR" ? "€" : "£"}
-                    {typeof account.balance === "number"
-                      ? account.balance.toFixed(2)
-                      : "0.00"}
-                  </span>
+                  {editMode[account.ownerId] ? (
+                    <input
+                      type="number"
+                      placeholder={t("balance")}
+                      value={
+                        editedAccounts[account.ownerId]?.balance ??
+                        account.balance
+                      }
+                      onChange={(e) =>
+                        handleChange(
+                          account.ownerId,
+                          "balance",
+                          Number(e.target.value),
+                        )
+                      }
+                      min={1}
+                      className="border p-1 w-full"
+                    />
+                  ) : (
+                    <span>
+                      {account.currency === "EUR" ? "€" : "£"}
+                      {typeof account.balance === "number"
+                        ? account.balance.toFixed(2)
+                        : "0.00"}
+                    </span>
+                  )}
                 </td>
 
                 {/* Action Buttons */}
