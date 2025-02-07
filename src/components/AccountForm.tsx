@@ -33,9 +33,7 @@ export default function AccountForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col ">
+    <form onSubmit={handleSubmit} className="flex flex-col ">
       <h3 className="text-xl font-semibold mb-2">{t("createAccount")}</h3>
 
       <input
@@ -51,8 +49,7 @@ export default function AccountForm() {
       <select
         value={currency}
         onChange={(e) => setCurrency(e.target.value)}
-        className="border p-2 rounded mb-2"
-      >
+        className="border p-2 rounded mb-2">
         <option value="EUR">EUR (€)</option>
         <option value="GBP">GBP (£)</option>
       </select>
@@ -63,6 +60,7 @@ export default function AccountForm() {
         value={balance}
         onChange={(e) => setBalance(e.target.value)}
         required
+        min={1}
         className="border p-2 rounded mb-2"
       />
 

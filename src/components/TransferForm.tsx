@@ -48,8 +48,7 @@ export default function TransferForm() {
         value={fromAccount}
         onChange={(e) => setFromAccount(e.target.value)}
         required
-        className="border p-2 rounded mb-2"
-      >
+        className="border p-2 rounded mb-2">
         <option value="">{t("selectSender")}</option>
         {accounts.map((acc) => (
           <option key={acc.ownerId} value={acc.ownerId}>
@@ -62,8 +61,7 @@ export default function TransferForm() {
         value={toAccount}
         onChange={(e) => setToAccount(e.target.value)}
         required
-        className="border p-2 rounded mb-2"
-      >
+        className="border p-2 rounded mb-2">
         <option value="">{t("selectReceiver")}</option>
         {accounts.map((acc) => (
           <option key={acc.ownerId} value={acc.ownerId}>
@@ -79,10 +77,14 @@ export default function TransferForm() {
         onChange={(e) => setAmount(e.target.value)}
         className="border p-2 rounded mb-2"
         required
-        minLength={2}
+        min={1}
       />
 
-      <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">{t("transfer")}</button>
+      <button
+        type="submit"
+        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        {t("transfer")}
+      </button>
 
       {/* Show loading state */}
       {transferStatus === "loading" && <p>Processing transfer...</p>}

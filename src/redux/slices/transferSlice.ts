@@ -75,6 +75,7 @@ export const makeTransfer = createAsyncThunk(
       }
 
       const result = await response.json();
+      console.log(result)
       dispatch(fetchAccounts()); // Refresh account balances
       return result;
     } catch (error: any) {

@@ -15,37 +15,37 @@ var accounts = [
     ownerId: uuidv4(),
     ownerName: "Bill Gates",
     currency: "EUR",
-    balance: 3000,
+    balance: 300000,
   },
   {
     ownerId: uuidv4(),
     ownerName: "Tom Hardy",
     currency: "GBP",
-    balance: 7000,
+    balance: 700000,
   },
   {
     ownerId: uuidv4(),
     ownerName: "Christian Bale",
     currency: "EUR",
-    balance: 2500,
+    balance: 250000,
   },
   {
     ownerId: uuidv4(),
     ownerName: "Sophia Lee",
     currency: "GBP",
-    balance: 4500,
+    balance: 450000,
   },
   {
     ownerId: uuidv4(),
     ownerName: "David Kim",
     currency: "GBP",
-    balance: 6000,
+    balance: 600000,
   },
   {
     ownerId: uuidv4(),
     ownerName: "Emma Wilson",
     currency: "GBP",
-    balance: 900000,
+    balance: 90000000,
   },
 ];
 
@@ -124,8 +124,10 @@ app.get("/", (req, res, next) => {
 
 // Transfer Funds Functionality
 app.post("/transfer", (req, res) => {
-  const { fromAccountId, toAccountId, amount } = req.body;
-  
+  let { fromAccountId, toAccountId, amount } = req.body;
+
+  amount = amount * 100; // convert to lower unit of the currency
+
   const fromAccount = accounts.find(acc => acc.ownerId === fromAccountId);
   const toAccount = accounts.find(acc => acc.ownerId === toAccountId);
 

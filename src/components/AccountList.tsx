@@ -170,6 +170,7 @@ export default function AccountList() {
                           Number(e.target.value),
                         )
                       }
+                      min={1}
                       className="border p-1 w-full"
                     />
                   ) : (
@@ -269,6 +270,7 @@ export default function AccountList() {
                           Number(e.target.value),
                         )
                       }
+                      min={1}
                       className="border p-2 w-full mb-2"
                     />
                   </>

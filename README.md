@@ -26,7 +26,7 @@ To run this project locally, you need to start both the frontend application and
 1️⃣ Clone the Repository
 ```bash
 git clone https://github.com/claudiooleite/bank-management
-cd project
+cd bank-management
 
 2️⃣ Start the Frontend Application
 ```bash

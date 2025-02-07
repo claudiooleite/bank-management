@@ -77,7 +77,14 @@ const accountsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchAccounts.fulfilled, (state, action) => {
-        state.accounts = action.payload;
+        state.accounts = action.payload.map((o:Account)=> {
+          return {
+            ownerId: o.ownerId,
+            ownerName: o.ownerName,
+            currency: o.currency,
+            balance: o.balance / 100
+          }
+        });
       })
       .addCase(addAccount.fulfilled, (state, action) => {
         state.accounts.push(action.payload);
