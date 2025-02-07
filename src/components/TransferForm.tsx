@@ -6,20 +6,35 @@ import { RootState, AppDispatch } from "../redux/store";
 import { makeTransfer } from "../redux/slices/transferSlice";
 import { useTranslations } from "next-intl";
 
+/**
+ * TransferForm Component
+ * - Allows users to transfer funds between accounts.
+ * - Validates input fields before submission.
+ * - Dispatches a transfer action to update the Redux store.
+ */
 export default function TransferForm() {
   const dispatch = useDispatch<AppDispatch>();
+
+  // Retrieve accounts and transfer status from Redux store
   const accounts = useSelector((state: RootState) => state.accounts.accounts);
   const transferStatus = useSelector(
     (state: RootState) => state.transfer.status,
   );
   const transferError = useSelector((state: RootState) => state.transfer.error);
 
+  // Component state for form inputs
   const [fromAccount, setFromAccount] = useState("");
   const [toAccount, setToAccount] = useState("");
   const [amount, setAmount] = useState("");
 
   const t = useTranslations();
 
+  /**
+   * Handles the form submission
+   * - Ensures all fields are filled before dispatching the transfer action.
+   * - Dispatches the `makeTransfer` action with the selected accounts and amount.
+   * - Resets the form fields after submission.
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -36,6 +51,7 @@ export default function TransferForm() {
       }),
     );
 
+    // Reset the form after submission
     setFromAccount("");
     setToAccount("");
     setAmount("");
@@ -44,6 +60,8 @@ export default function TransferForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col">
       <h3 className="text-xl font-semibold mb-2">{t("transferFunds")}</h3>
+
+      {/* Sender Account Selection */}
       <select
         value={fromAccount}
         onChange={(e) => setFromAccount(e.target.value)}
@@ -57,6 +75,7 @@ export default function TransferForm() {
         ))}
       </select>
 
+      {/* Receiver Account Selection */}
       <select
         value={toAccount}
         onChange={(e) => setToAccount(e.target.value)}
@@ -70,6 +89,7 @@ export default function TransferForm() {
         ))}
       </select>
 
+      {/* Transfer Amount Input */}
       <input
         type="number"
         placeholder={t("amount")}
@@ -80,16 +100,19 @@ export default function TransferForm() {
         min={1}
       />
 
+      {/* Transfer Button */}
       <button
         type="submit"
         className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
         {t("transfer")}
       </button>
 
-      {/* Show loading state */}
-      {transferStatus === "loading" && <p>Processing transfer...</p>}
+      {/* Display Loading, Success, or Error Messages */}
+      {transferStatus === "loading" && (
+        <p className="text-gray-600">Processing transfer...</p>
+      )}
       {transferStatus === "failed" && (
-        <p style={{ color: "red" }}>Error: {transferError}</p>
+        <p className="text-red-500">Error: {transferError}</p>
       )}
     </form>
   );

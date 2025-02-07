@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
-// Account type
+// ✅ Account Type Definition
 interface Account {
   ownerId: string;
   ownerName: string;
@@ -8,6 +8,7 @@ interface Account {
   balance: number;
 }
 
+// ✅ Initial State Definition
 export interface AccountsState {
   accounts: Account[];
   status: "idle" | "loading" | "failed";
@@ -18,18 +19,24 @@ export const initialState: AccountsState = {
   status: "idle",
 };
 
-// Async Thunks for API Calls
+/* ==========================================
+   ✅ Async Thunks for API Calls
+=========================================== */
 
-// Fetch all accounts
+/**
+ * ✅ Fetch All Accounts from the Backend API
+ */
 export const fetchAccounts = createAsyncThunk(
   "accounts/fetchAccounts",
   async () => {
     const response = await fetch("http://localhost:9000/accounts");
     return response.json();
-  },
+  }
 );
 
-// Add a new account
+/**
+ * ✅ Add a New Account
+ */
 export const addAccount = createAsyncThunk(
   "accounts/addAccount",
   async (newAccount: Omit<Account, "ownerId">) => {
@@ -39,10 +46,12 @@ export const addAccount = createAsyncThunk(
       body: JSON.stringify(newAccount),
     });
     return response.json();
-  },
+  }
 );
 
-// Update an account
+/**
+ * ✅ Update an Existing Account
+ */
 export const updateAccount = createAsyncThunk(
   "accounts/updateAccount",
   async (account: Account) => {
@@ -52,13 +61,15 @@ export const updateAccount = createAsyncThunk(
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(account),
-      },
+      }
     );
     return response.json();
-  },
+  }
 );
 
-// Delete an account
+/**
+ * ✅ Delete an Account
+ */
 export const deleteAccount = createAsyncThunk(
   "accounts/deleteAccount",
   async (ownerId: string) => {
@@ -66,10 +77,12 @@ export const deleteAccount = createAsyncThunk(
       method: "DELETE",
     });
     return ownerId;
-  },
+  }
 );
 
-// Redux Slice
+/* ==========================================
+   ✅ Redux Slice for Account Management
+=========================================== */
 const accountsSlice = createSlice({
   name: "accounts",
   initialState,
@@ -77,21 +90,17 @@ const accountsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchAccounts.fulfilled, (state, action) => {
-        state.accounts = action.payload.map((o:Account)=> {
-          return {
-            ownerId: o.ownerId,
-            ownerName: o.ownerName,
-            currency: o.currency,
-            balance: o.balance / 100
-          }
-        });
+        state.accounts = action.payload.map((account: Account) => ({
+          ...account,
+          balance: account.balance / 100, // Convert balance from cents to currency format
+        }));
       })
       .addCase(addAccount.fulfilled, (state, action) => {
         state.accounts.push(action.payload);
       })
       .addCase(updateAccount.fulfilled, (state, action) => {
         const index = state.accounts.findIndex(
-          (acc) => acc.ownerId === action.payload.ownerId,
+          (acc) => acc.ownerId === action.payload.ownerId
         );
         if (index !== -1) {
           state.accounts[index] = action.payload;
@@ -99,10 +108,11 @@ const accountsSlice = createSlice({
       })
       .addCase(deleteAccount.fulfilled, (state, action) => {
         state.accounts = state.accounts.filter(
-          (acc) => acc.ownerId !== action.payload,
+          (acc) => acc.ownerId !== action.payload
         );
       });
   },
 });
 
+// ✅ Export Reducer
 export default accountsSlice.reducer;

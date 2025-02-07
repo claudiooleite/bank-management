@@ -4,13 +4,17 @@ const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 
-// Enable CORS for frontend access
+// ✅ Enable CORS for frontend access
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Mock Accounts Data
-var accounts = [
+/* ==========================================
+   ✅ Mock Data: Accounts & Exchange Rates
+=========================================== */
+
+// ✅ Mock Bank Accounts Data
+let accounts = [
   {
     ownerId: uuidv4(),
     ownerName: "Bill Gates",
@@ -49,44 +53,65 @@ var accounts = [
   },
 ];
 
-// Mock Exchange Rates (1 EUR base)
+// ✅ Mock Exchange Rates (Base: 1 EUR)
 const exchangeRates = {
   EUR: 1.0,
   GBP: 0.89,
 };
 
-app.get("/accounts", (req, res, next) => {
+/* ==========================================
+   ✅ API Routes for Bank Account Management
+=========================================== */
+
+/**
+ * ✅ Get All Accounts
+ * @route GET /accounts
+ */
+app.get("/accounts", (req, res) => {
   res.json(accounts);
 });
 
-// Search functionality
-app.get("/accounts/:ownerId", (req, res, next) => {
-  const requestId = req.params.ownerId;
+/**
+ * ✅ Get a Single Account by ID
+ * @route GET /accounts/:ownerId
+ */
+app.get("/accounts/:ownerId", (req, res) => {
+  const { ownerId } = req.params;
+  const account = accounts.find((acc) => acc.ownerId === ownerId);
 
-  const account = accounts.find((a) => a.ownerId === requestId);
-  if (account == null) {
-    res.status(404).send("not found");
-    return;
+  if (!account) {
+    return res.status(404).json({ error: "Account not found" });
   }
+
   res.json(account);
 });
 
-// Create Account Functionality
+/**
+ * ✅ Create a New Account
+ * @route POST /accounts
+ */
 app.post("/accounts", (req, res) => {
   const { ownerName, currency, balance } = req.body;
 
+  if (!ownerName || !currency || balance == null) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
   const newAccount = {
-    ownerId: uuidv4(), // Generate new UUID
+    ownerId: uuidv4(),
     ownerName,
     currency,
-    balance: Number(balance), // Ensure balance is a number
+    balance: Number(balance),
   };
 
   accounts.push(newAccount);
   res.json(newAccount);
 });
 
-// Update Account Functionality
+/**
+ * ✅ Update an Existing Account
+ * @route PUT /accounts/:ownerId
+ */
 app.put("/accounts/:ownerId", (req, res) => {
   const { ownerId } = req.params;
   const { ownerName, currency, balance } = req.body;
@@ -96,16 +121,21 @@ app.put("/accounts/:ownerId", (req, res) => {
     return res.status(404).json({ error: "Account not found" });
   }
 
+  // ✅ Update account details
   accounts[accountIndex] = {
     ...accounts[accountIndex],
     ownerName,
     currency,
     balance: Number(balance),
   };
+
   res.json(accounts[accountIndex]);
 });
 
-// Delete Account Functionality
+/**
+ * ✅ Delete an Account
+ * @route DELETE /accounts/:ownerId
+ */
 app.delete("/accounts/:ownerId", (req, res) => {
   const { ownerId } = req.params;
 
@@ -118,18 +148,26 @@ app.delete("/accounts/:ownerId", (req, res) => {
   res.json({ message: "Account deleted successfully" });
 });
 
-app.get("/", (req, res, next) => {
-  res.status(404).send("");
-});
+/* ==========================================
+   ✅ Transfer Funds Between Accounts
+=========================================== */
 
-// Transfer Funds Functionality
+/**
+ * ✅ Transfer Funds
+ * @route POST /transfer
+ */
 app.post("/transfer", (req, res) => {
   let { fromAccountId, toAccountId, amount } = req.body;
 
-  amount = amount * 100; // convert to lower unit of the currency
+  if (!fromAccountId || !toAccountId || amount == null) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
 
-  const fromAccount = accounts.find(acc => acc.ownerId === fromAccountId);
-  const toAccount = accounts.find(acc => acc.ownerId === toAccountId);
+  // Convert amount to cents for precision
+  amount = amount * 100;
+
+  const fromAccount = accounts.find((acc) => acc.ownerId === fromAccountId);
+  const toAccount = accounts.find((acc) => acc.ownerId === toAccountId);
 
   if (!fromAccount || !toAccount) {
     return res.status(400).json({ error: "Invalid accounts" });
@@ -141,19 +179,31 @@ app.post("/transfer", (req, res) => {
 
   let convertedAmount = amount;
 
+  // ✅ Currency Conversion if Needed
   if (fromAccount.currency !== toAccount.currency) {
-    const conversionRate = exchangeRates[toAccount.currency] / exchangeRates[fromAccount.currency];
+    const conversionRate =
+      exchangeRates[toAccount.currency] / exchangeRates[fromAccount.currency];
     convertedAmount = amount * conversionRate;
   }
 
+  // ✅ Deduct from sender and add to receiver
   fromAccount.balance -= amount;
   toAccount.balance += convertedAmount;
 
   res.json({ success: true, fromAccount, toAccount });
 });
 
-const port = 9000;
+/* ==========================================
+   ✅ Default Fallback Route
+=========================================== */
+app.use((req, res) => {
+  res.status(404).json({ error: "Endpoint not found" });
+});
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+/* ==========================================
+   ✅ Start Server
+=========================================== */
+const PORT = 9000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

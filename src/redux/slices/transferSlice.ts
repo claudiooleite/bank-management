@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccounts } from "./accountSlice"; 
 
-// Mock Exchange Rates
+// ✅ Mock Exchange Rates (for currency conversion)
 const exchangeRates: Record<string, number> = {
   EUR: 1.0,
   GBP: 0.89,
 };
 
-// Transfer type definition
+// ✅ Transfer type definition
 interface Transfer {
   fromAccountId: string;
   toAccountId: string;
@@ -20,13 +20,19 @@ interface TransferState {
   error: string | null;
 }
 
+// ✅ Initial State
 const initialState: TransferState = {
   transfers: [],
   status: "idle",
   error: null,
 };
 
-// Async Thunk to make a transfer
+/**
+ * ✅ Async Thunk: Handles money transfers between accounts.
+ * - Validates accounts and funds.
+ * - Converts currency if needed.
+ * - Sends the transfer request to the backend.
+ */
 export const makeTransfer = createAsyncThunk(
   "transfers/makeTransfer",
   async (transferData: Transfer, { dispatch, getState, rejectWithValue }) => {
@@ -34,6 +40,7 @@ export const makeTransfer = createAsyncThunk(
       const state: any = getState();
       const accounts = state.accounts.accounts;
 
+      // ✅ Find sender & receiver accounts
       const fromAccount = accounts.find((acc: any) => acc.ownerId === transferData.fromAccountId);
       const toAccount = accounts.find((acc: any) => acc.ownerId === transferData.toAccountId);
 
@@ -41,16 +48,19 @@ export const makeTransfer = createAsyncThunk(
         return rejectWithValue("Invalid accounts");
       }
 
+      // ✅ Check if sender has enough funds
       if (fromAccount.balance < transferData.amount) {
         return rejectWithValue("Insufficient funds");
       }
 
       let finalAmount = transferData.amount;
 
+      // ✅ Handle Currency Conversion
       if (fromAccount.currency !== toAccount.currency) {
         const conversionRate = exchangeRates[toAccount.currency] / exchangeRates[fromAccount.currency];
         const convertedAmount = transferData.amount * conversionRate;
 
+        // Confirm conversion before proceeding
         const userConfirmed = window.confirm(
           `Exchange Rate: 1 ${fromAccount.currency} = ${conversionRate.toFixed(2)} ${toAccount.currency}\n` +
           `Converted Amount: ${convertedAmount.toFixed(2)} ${toAccount.currency}\n\n` +
@@ -64,6 +74,7 @@ export const makeTransfer = createAsyncThunk(
         finalAmount = convertedAmount;
       }
 
+      // ✅ Send transfer request to backend
       const response = await fetch("http://localhost:9000/transfer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -75,17 +86,19 @@ export const makeTransfer = createAsyncThunk(
       }
 
       const result = await response.json();
-      console.log(result)
-      dispatch(fetchAccounts()); // Refresh account balances
+      console.log(result);
+
+      // ✅ Refresh account balances after transfer
+      dispatch(fetchAccounts()); 
+
       return result;
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  },
+  }
 );
 
-
-// Redux Slice
+// ✅ Redux Slice for Transfer Management
 const transferSlice = createSlice({
   name: "transfers",
   initialState,
