@@ -21,6 +21,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Banking App",
   description: "A secure and modern banking application",
+  icons: {
+    icon: "/bank.png", // ✅ Set the path to your PNG icon
+  },
 };
 
 /**
