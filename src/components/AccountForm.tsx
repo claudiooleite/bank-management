@@ -40,7 +40,12 @@ export default function AccountForm() {
         type="text"
         placeholder={t("ownerName")}
         value={ownerName}
-        onChange={(e) => setOwnerName(e.target.value)}
+        onChange={(e) => {
+          const value = e.target.value;
+          if (/^[a-zA-Z\s-]*$/.test(value) || value === "") {
+            setOwnerName(value);
+          }
+        }}
         required
         className="border p-2 rounded mb-2"
         minLength={3}
