@@ -1,51 +1,55 @@
-# **Bank Management Web App**
+# Bank Management Web App
 
-A **bank account management** web application built using **Next.js 15** with **TypeScript, Redux, and Tailwind CSS**. The project includes **account management, transactions, localization, editing and deleting accounts**.
+A **bank account management** web application built using **Next.js 15**, **TypeScript**, **Redux Toolkit**, and **Tailwind CSS**. This project includes account management, transactions, localization, and the ability to edit or delete accounts.
 
 ## Features
--  **Manage Bank Accounts** (Create, Edit, Delete)
--  **Multi-currency Support**
--  **Localization** with `next-intl`
--  **Responsive UI** with Tailwind CSS
--  **State Management** using Redux Toolkit
--  **Unit Testing** using Jest
 
----
+- **Manage Bank Accounts** (Create, Edit, Delete)
+- **Multi-currency Support**
+- **Localization** with `next-intl`
+- **Responsive UI** with Tailwind CSS
+- **State Management** using Redux Toolkit
+- **Unit Testing** with Jest and React Testing Library
 
 ## Tech Stack
+
 - **Frontend:** Next.js 15, React, TypeScript
 - **State Management:** Redux Toolkit
 - **Styling:** Tailwind CSS
-- **Backend:** Express Server (for mock API)
+- **Backend:** Express.js (Mock API)
 
-## Local Development
-To run this project locally, you need to start both the frontend application and the backend API.
+## Installation & Local Development
 
-## Getting Started
+To run this project locally, follow these steps:
 
-1️⃣ Clone the Repository
+### 1. Clone the Repository
 ```bash
-git clone https://github.com/claudiooleite/bank-management
+git clone https://github.com/claudiooleite/bank-management.git
 cd bank-management
+```
 
-2️⃣ Start the Frontend Application
+### 2. Start the Frontend Application
 ```bash
 npm install
 npm run dev
-The application will start at http://localhost:3000.
+```
+The frontend application will be available at http://localhost:3000.
 
-3️⃣ Start the Backend API
+### 3. Start the Backend API
 ```bash
 cd src/api
 npm install
 npm run dev
-
+```
 The backend API will be available at http://localhost:9000.
 
-✅ Testing
+## Running Tests
 This project includes unit tests using Jest and React Testing Library.
 
-To run the tests:
+To run the test suite:
 ```bash
 npm run test
+```
 
+## License
+This project is licensed under the MIT License.
