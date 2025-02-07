@@ -198,24 +198,69 @@ export default function AccountList() {
             className="bg-white border rounded-md p-4 mb-3">
             <div className="flex justify-between items-center">
               <div>
-                <h3 className="font-semibold text-lg">{account.ownerName}</h3>
-                <p className="text-sm text-gray-600">
-                  {account.currency} - {account.currency === "EUR" ? "€" : "£"}
-                  {typeof account.balance === "number"
-                    ? account.balance.toFixed(2)
-                    : "0.00"}
-                </p>
+                {editMode[account.ownerId] ? (
+                  <>
+                    <input
+                      type="text"
+                      value={
+                        editedAccounts[account.ownerId]?.ownerName ??
+                        account.ownerName
+                      }
+                      onChange={(e) =>
+                        handleChange(
+                          account.ownerId,
+                          "ownerName",
+                          e.target.value,
+                        )
+                      }
+                      className="border p-2 w-full mb-2"
+                    />
+                    <input
+                      type="text"
+                      value={
+                        editedAccounts[account.ownerId]?.currency ??
+                        account.currency
+                      }
+                      className="border p-2 w-full mb-2"
+                      disabled
+                    />
+                    <input
+                      type="number"
+                      value={
+                        editedAccounts[account.ownerId]?.balance ??
+                        account.balance
+                      }
+                      onChange={(e) =>
+                        handleChange(
+                          account.ownerId,
+                          "balance",
+                          Number(e.target.value),
+                        )
+                      }
+                      min={1}
+                      className="border p-2 w-full mb-2"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <h3 className="font-semibold text-lg">
+                      {account.ownerName}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      {account.currency} -{" "}
+                      {account.currency === "EUR" ? "€" : "£"}
+                      {typeof account.balance === "number"
+                        ? account.balance.toFixed(2)
+                        : "0.00"}
+                    </p>
+                  </>
+                )}
               </div>
               {!editMode[account.ownerId] && (
                 <button
                   onClick={() => {
-                    setExpandedAccount((prev) =>
-                      prev === account.ownerId ? null : account.ownerId,
-                    );
-                    setEditMode((prev) => ({
-                      ...prev,
-                      [account.ownerId]: true,
-                    }));
+                    setExpandedAccount(account.ownerId); // Expand the account
+                    handleEdit(account.ownerId, account); // Enable edit mode
                   }}
                   className="text-blue-500">
                   Edit
@@ -227,7 +272,10 @@ export default function AccountList() {
             {editMode[account.ownerId] && (
               <div className="mt-3 flex gap-2">
                 <button
-                  onClick={() => handleSave(account.ownerId)}
+                  onClick={() => {
+                    handleSave(account.ownerId);
+                    setExpandedAccount(null); // Close expanded section after saving
+                  }}
                   className="px-4 py-2 bg-green-500 text-white rounded w-full">
                   Save
                 </button>
